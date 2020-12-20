@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour
 
 
     }
+    
 
 
     public Vector3 RandomSpawnPos()
@@ -65,16 +66,16 @@ public class Enemy : MonoBehaviour
         return new Vector3(Random.Range(-20, 20), 0, Random.Range(-8, 20));
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+   private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.CompareTag("Player") )
+        if (collision.gameObject.CompareTag("Egg") && gameManager.gameIsAvtive)
         {
-            Destroy(gameObject);
-
+            gameManager.UpdateScore(-5);
 
         }
-    }
+
+
+ 
 
 }
