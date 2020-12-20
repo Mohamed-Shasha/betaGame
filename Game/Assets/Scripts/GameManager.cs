@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -13,10 +13,14 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI won;
     protected int score;
     public List<GameObject> targets;
-    float spawnRate = 1.5f;
+    float spawnRate = 6f;
     public bool gameIsAvtive;
     public Button RestartButton;
-   
+    public GameObject powerUp;
+    public GameObject egg;
+    public int powerCount;
+
+
 
 
     // Start is called before the first frame update
@@ -32,6 +36,8 @@ public class GameManager : MonoBehaviour
 
         gameIsAvtive = true;
         StartCoroutine(SpawnTarget());
+        StartCoroutine(SpawnPowerUp());
+        StartCoroutine(SpawnEggs());
         score = 0;
         UpdateScore(0);
         titleScreen.gameObject.SetActive(false);
@@ -42,6 +48,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Gamewon();
+        powerCount = FindObjectsOfType<Powerup>().Length;
+
     }
 
     IEnumerator SpawnTarget()
@@ -57,6 +65,38 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    IEnumerator SpawnPowerUp()
+    {
+        
+        while (gameIsAvtive && powerCount==0)
+        {
+
+            yield return new WaitForSeconds(9);
+
+            Instantiate(powerUp);
+
+
+        }
+
+    }
+
+    IEnumerator SpawnEggs()
+    {
+        while (gameIsAvtive)
+        {
+
+            yield return new WaitForSeconds( spawnRate/1.5f);
+
+            Instantiate(egg);
+
+
+        }
+
+    }
+
+
+
+
 
     public void UpdateScore(int scoreToAdd)
     {
@@ -65,12 +105,16 @@ public class GameManager : MonoBehaviour
     }
     public void Gamewon()
     {
-        if (score == 30)
+        if (score >= 30)
         {
             RestartButton.gameObject.SetActive(true);
             won.gameObject.SetActive(true);
             gameIsAvtive = false;
             
+        }
+        else
+        {
+            SpawnTarget();
         }
     }
 
