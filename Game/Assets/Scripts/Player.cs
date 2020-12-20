@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
                 gameManager.UpdateScore(5);       
                 
             }
-       if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Barrier"))
+       if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
             gameManager.GameOver();
